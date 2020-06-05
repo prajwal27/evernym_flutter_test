@@ -217,7 +217,7 @@ public class ConnectMeVcx {
         BridgeUtils.writeCACert(context);
 
         try {
-            int retCode = VcxApi.initNullPay();
+            int retCode = VcxApi.initSovToken();
             if(retCode != 0) {
                 promise.reject("Could not init nullpay", String.valueOf(retCode));
             } else {
