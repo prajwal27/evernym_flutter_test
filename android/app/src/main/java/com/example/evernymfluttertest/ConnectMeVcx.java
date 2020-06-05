@@ -272,6 +272,7 @@ public class ConnectMeVcx {
                             ActivityCompat.requestPermissions((Activity) context,
                                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     VcxStaticData.REQUEST_WRITE_EXTERNAL_STORAGE);
+                            VcxStaticData.resolveLoggerPromise(VcxStaticData.LOG_FILE_PATH);
                         }
                     }).show();
 
@@ -280,6 +281,7 @@ public class ConnectMeVcx {
             ActivityCompat.requestPermissions((Activity)context,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     VcxStaticData.REQUEST_WRITE_EXTERNAL_STORAGE);
+            VcxStaticData.resolveLoggerPromise(VcxStaticData.LOG_FILE_PATH);
         }
     }
 
