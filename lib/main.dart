@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -37,10 +38,29 @@ class _MyHomePageState extends State<MyHomePage> {
   String scanqr = '';
 
   static const platform = const MethodChannel('test_channel');
+
   Future<void> _invoke_test_method(String scannedQRCode) async {
     try {
       final String result = await platform.invokeMethod(
           'test_method', <String, String>{'url': scannedQRCode});
+
+      print("resultConnection ${result}");
+      setState(() {
+        scanqr = result;
+      });
+    } on PlatformException catch (e) {
+      print("unable ${e}");
+      // Unable to open the browser print(e);
+    }
+  }
+
+  Future<void> _invoke_vcx_messages() async {
+    print("_invoke_vcx_messages");
+    try {
+      final String result = await platform.invokeMethod(
+          'test_vcx_method', );
+
+      print("resultVcxMessages ${result}");
       setState(() {
         scanqr = result;
       });
@@ -71,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     result.fold(() {
       print("none");
     }, (scannedResult) {
-      print("scanned QR content ${scannedResult.rawContent}");
+      print("scanned QR content ${scannedResult.rawContent} ${scannedResult.formatNote}");
 
       _invoke_test_method(scannedResult.rawContent);
     },);
@@ -99,6 +119,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.notifications),
+            color: Colors.white,
+            onPressed: (){
+              print("woo");
+              _invoke_vcx_messages();
+            },
+          )
+        ],
       ),
       body: Center(
         child: Column(
